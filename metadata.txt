@@ -1,0 +1,15 @@
+[general]
+name=Instituto Canario de Estadística (ISTAC)
+qgisMinimumVersion=3.00
+qgisMaximumVersion=3.99
+description=Plugin oficial del Instituto Canario de Estadística (ISTAC)
+about=Este plugin permite el acceso a indicadores y cartografías publicadas en la API del Instituto Canario de Estadística (ISTAC)
+version=0.1
+author=Instituto Canario de Estadística (ISTAC)
+email=consultas.istac@gobiernodecanarias.org
+icon=images/istac_c.png
+experimental=False
+tags=istac, canarias, spain, vector, api, web, analysis, statistics, stats, data, indicators, polygon
+homepage=https://www.gobiernodecanarias.org/istac/api/
+tracker=http://www.gobiernodecanarias.org/istac/servicios/atencion.html
+category=Web

@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BaseDialog</class>
+ <widget class="QDialog" name="BaseDialog">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>721</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>Instituto Canario de Estadística (ISTAC)</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/imgBase/images/istac_c.png</normaloff>:/imgBase/images/istac_c.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetDefaultConstraint</enum>
+   </property>
+   <item>
+    <widget class="QLabel" name="labelDataTitle">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Selecciona la información a importar</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="rbData">
+     <property name="text">
+      <string>Sólo indicadores</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="rbDataCarto">
+     <property name="contextMenuPolicy">
+      <enum>Qt::DefaultContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Indicadores y su cartografía asociada</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="rbCarto">
+     <property name="text">
+      <string>Cartografí­a ligera disponible por capas</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Selecciona un indicador</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelSubject">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Tema</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="cbSubjects">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelIndicator">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Indicador</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="cbIndicators">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
+     <property name="acceptDrops">
+      <bool>true</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelDataModelSubtitle">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Formato de salida</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBoxMeasures">
+     <property name="text">
+      <string>Visualizar las medidas como columnas</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelLabelingSubtitle">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Etiquetado</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBoxDate">
+     <property name="text">
+      <string>Incluir campo calculado con fecha a partir de periodos de referencia</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBoxGranularities">
+     <property name="text">
+      <string>Añadir las columnas &quot;Granularidad geográfica&quot; y &quot;Granularidad temporal&quot;</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBoxLabels">
+     <property name="text">
+      <string>Añadir las etiquetas geográficas y temporales al conjunto de datos</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBoxMeasuresUnit">
+     <property name="text">
+      <string>Añadir las unidades de medida</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBoxLangs">
+     <property name="text">
+      <string>Añadir todos los idiomas</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelCartoTitle">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Selecciona las capas cartográficas ligeras</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QListWidget" name="listGeographical">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::ExtendedSelection</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelDistricts">
+     <property name="text">
+      <string>Distritos</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="cbDistricts"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelSections">
+     <property name="text">
+      <string>Secciones</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="cbSections"/>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelLoading">
+     <property name="text">
+      <string>Cargando datos ...</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QProgressBar" name="pBar">
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="textVisible">
+      <bool>true</bool>
+     </property>
+     <property name="invertedAppearance">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="1">
+      <widget class="QPushButton" name="btnGetDataPolygons">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Obtener datos</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/imgBase/../images/info.png</normaloff>:/imgBase/../images/info.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pushButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Cerrar</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>687</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>177</x>
+     <y>526</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbIndicators</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getCbIndicators(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>402</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>462</x>
+     <y>168</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnGetDataPolygons</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getBtnAction(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>483</x>
+     <y>687</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>421</x>
+     <y>525</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rbDataCarto</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getRadioOptions(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>302</x>
+     <y>79</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>503</x>
+     <y>77</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rbCarto</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getRadioOptions(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>102</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>426</x>
+     <y>99</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>listGeographical</sender>
+   <signal>itemSelectionChanged()</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getSelectionGeographic()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>501</x>
+     <y>514</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>533</x>
+     <y>351</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxMeasures</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>setCbMeasures(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>284</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>297</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxDate</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>setCbDates(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
+     <y>335</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>541</x>
+     <y>252</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxGranularities</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>setCbGeoTempColumns(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>378</x>
+     <y>358</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>532</x>
+     <y>277</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxLabels</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>setCbGeoTempLabels(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>415</x>
+     <y>381</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>492</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxMeasuresUnit</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>setCbMeasuresUnits(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>369</x>
+     <y>404</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>464</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxLangs</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>setCbLangs(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>227</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>436</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbSubjects</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getCbSubjects(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>303</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbDistricts</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getCbDistricts(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>94</x>
+     <y>559</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>100</x>
+     <y>536</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbSections</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getCbSections(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>604</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>335</x>
+     <y>554</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rbData</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>getRadioOptions(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>85</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>390</x>
+     <y>33</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>getCbIndicators(QString)</slot>
+  <slot>getRadioOptions(QString)</slot>
+  <slot>drawPolygons(bool)</slot>
+  <slot>getBtnAction(bool)</slot>
+  <slot>getRadioOptions(bool)</slot>
+  <slot>getSelectionGeographic()</slot>
+  <slot>setCbMeasures(bool)</slot>
+  <slot>setCbDates(bool)</slot>
+  <slot>setCbGeoTempColumns(bool)</slot>
+  <slot>setCbGeoTempLabels(bool)</slot>
+  <slot>setCbMeasuresUnits(bool)</slot>
+  <slot>setCbLangs(bool)</slot>
+  <slot>getCbSubjects(QString)</slot>
+  <slot>getCbDistricts(QString)</slot>
+  <slot>getCbSections(QString)</slot>
+ </slots>
+</ui>
