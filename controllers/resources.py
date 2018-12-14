@@ -41,11 +41,8 @@ def get_content(url):
         content_requests = r.json()
     except requests.exceptions.HTTPError as e:
         print("Bad HTTP status code:", e)
-        #return(e)
     except requests.exceptions.RequestException as e:
         print("Network error:", e)
-        #QgsMessageLog.instance().messageReceived.connect( errorCatcher )
-        #return(e)
 
     return content_requests
 
