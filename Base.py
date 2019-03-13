@@ -45,8 +45,9 @@ class Base:
         self.url_to_check = "http://www.gobiernodecanarias.org/istac/QGIS/"
         self.url_to_download = "http://www.gobiernodecanarias.org/istac/descargas/QGIS/data/"
 
+
     def initGui(self):
-        self.action = QAction(QIcon(":/imgBase/images/istac_c.png"), u"ISTAC Plugin", self.iface.mainWindow())
+        self.action = QAction(QIcon(":/imgBase/images/istac_c.png"), u"Instituto Canario de Estadística (ISTAC)", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addToolBarIcon(self.action)
         self.iface.addPluginToMenu(u"&Instituto Canario de Estadística (ISTAC)", self.action)

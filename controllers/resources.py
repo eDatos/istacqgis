@@ -1,6 +1,7 @@
-import requests
 import re
-
+import json
+from PyQt5.QtCore import QUrl, QEventLoop
+from PyQt5.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
 
 # Build API URL
 def get_url(api, path, resource=None):
@@ -31,19 +32,22 @@ def errorCatcher( msg, tag, level ):
 
 
 def get_content(url):
-    
     content_requests = ""
     headers = {'Content-Type': 'application/json;charset=UTF-8', 'Access-Control-Allow-Origin': '*'}
-    try:
-        # Get content
-        r = requests.get(url, headers=headers)
-        # Decode JSON response into a Python dict:
-        content_requests = r.json()
-    except requests.exceptions.HTTPError as e:
-        print("Bad HTTP status code:", e)
-    except requests.exceptions.RequestException as e:
-        print("Network error:", e)
-
+    # Get content
+    networkAccessManager = QNetworkAccessManager()
+    req = QNetworkRequest(QUrl(url))
+    req.setHeader(QNetworkRequest.ContentTypeHeader, headers)
+    reply = networkAccessManager.get(req)
+    event = QEventLoop()
+    reply.finished.connect(event.quit)
+    event.exec()
+    # Capture errors
+    er = reply.error()
+    if er == QNetworkReply.NoError:
+        bytes_string = reply.readAll()
+        content_requests = json.loads(str(bytes_string, 'utf-8'))
+        
     return content_requests
 
 # Calculated date

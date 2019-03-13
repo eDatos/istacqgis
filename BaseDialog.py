@@ -221,7 +221,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # Get current path
         file_path = self.plugin_dir + "/data/"
-        uri = "file:///" + file_path + resources.getIndicatorFileName(self, self.indicator) + ".csv?encoding=%s&delimiter=%s&crs=%s" % ("latin9",",","epsg:32628")
+        uri = "file:///" + file_path + resources.getIndicatorFileName(self, self.indicator) + ".csv?encoding=%s&delimiter=%s&crs=%s" % ("UTF-8",",","epsg:32628")
         
         # Layer
         dataLayer = QgsVectorLayer(uri, self.indicator, "delimitedtext")
@@ -232,7 +232,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         # Edit layer attributes
         dataLayer.startEditing()
         # Set encoding to UTF-8
-        dataLayer.setProviderEncoding(u'latin9')
+        dataLayer.setProviderEncoding(u'UTF-8')
         # Set layer metadata
         m = dataLayer.metadata()
         m = self.getLayerMetadata(
@@ -267,6 +267,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
             self.checkBoxDate.setEnabled(True)
             self.checkBoxGranularities.setEnabled(True)
             self.checkBoxLabels.setEnabled(True)
+            self.setCbMeasures(True)
             if self.geographical_and_temporal_labels:
                 self.checkBoxLangs.setEnabled(True)
             else:
@@ -278,6 +279,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
             self.checkBoxDate.setEnabled(False)
             self.checkBoxGranularities.setEnabled(False)
             self.checkBoxLabels.setEnabled(False)
+            self.checkBoxMeasuresUnit.setEnabled(False)
             self.checkBoxLangs.setEnabled(False)
                 
         if geographical:
@@ -291,6 +293,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
     def getRadioOptions(self, clicked):
         
+        self.btnGetDataPolygons.setEnabled(True)
         # Sólo indicadores
         if self.rbData.isChecked():
             self.change_btn_text("Obtener datos")
@@ -299,6 +302,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # Indicadores y su cartografía asociada
         if self.rbDataCarto.isChecked():
+            self.btnGetDataPolygons.setEnabled(False)
             self.change_btn_text("Obtener datos y cartografía")
             self.enable_options(True, geographical=True)
             self.setlistGeographical(indicator=self.indicator)
@@ -306,6 +310,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # Cartografía disponible por capas
         if self.rbCarto.isChecked():
+            self.btnGetDataPolygons.setEnabled(False)
             self.change_btn_text("Obtener cartografía")
             self.enable_options(False, geographical=True)
             self.setlistGeographical(indicator=None)
@@ -318,6 +323,14 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # Get geographic selected list
         self.geographic_list = [item.text() for item in self.listGeographical.selectedItems()]
+        
+        # Enable or disable button
+        if len(self.geographic_list) == 0 and self.buttonText == "Obtener datos y cartografía":
+            self.btnGetDataPolygons.setEnabled(False)
+        elif len(self.geographic_list) == 0 and self.buttonText == "Obtener cartografía":
+            self.btnGetDataPolygons.setEnabled(False)
+        else:
+            self.btnGetDataPolygons.setEnabled(True)
         
         # Checkboxes
         if (self.rbCarto.isChecked()):
@@ -445,7 +458,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         self.setProgress(1)
         
         # POLYGONS
-        if (self.buttonText == "Obtener cartografía"):
+        if self.buttonText == "Obtener cartografía":
             for geographical_granularity in self.geographic_list:
                 self.labelLoading.setText("Cargando cartografía " + geographical_granularity + " ...")
                 self.labelLoading.repaint()
@@ -454,7 +467,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
                 self.setProgress(100)
             
         # DATA
-        elif (self.buttonText == "Obtener datos"):
+        elif self.buttonText == "Obtener datos":
             self.labelLoading.setText("Cargando datos del indicador " + self.indicator + " ...")
             self.labelLoading.repaint()
             self.setProgress(1)
