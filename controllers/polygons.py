@@ -8,7 +8,7 @@ def getGeographicalGranularities(self, indicator=None):
     geographical_granularities = []
     
     if indicator is None:
-        geographical_granularities = ['COUNTIES', 'COUNTRIES', 'DISTRICTS', 'ISLANDS', 'LARGE_COUNTRIES', 'MUNICIPALITIES', 'PROVINCES', 'REGIONS', 'SECTIONS']
+        geographical_granularities = ['COUNTIES', 'COUNTRIES', 'DISTRICTS', 'ISLANDS', 'LARGE_COUNTIES', 'MUNICIPALITIES', 'PROVINCES', 'REGIONS', 'SECTIONS']
         
     else:
         content = istacpy.get_indicators_code(indicator)
