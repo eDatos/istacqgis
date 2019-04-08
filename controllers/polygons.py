@@ -2,13 +2,17 @@ from istacqgis.controllers import cache
 from istacqgis.controllers.istacpy import istacpy
 import json
 
-
 def getGeographicalGranularities(self, indicator=None):
     
     geographical_granularities = []
+    url_to_check = "http://www.gobiernodecanarias.org/istac/QGIS/"
     
     if indicator is None:
-        geographical_granularities = ['COUNTIES', 'COUNTRIES', 'DISTRICTS', 'ISLANDS', 'LARGE_COUNTIES', 'MUNICIPALITIES', 'PROVINCES', 'REGIONS', 'SECTIONS']
+        # geographical_granularities = ['COUNTIES', 'COUNTRIES', 'DISTRICTS', 'ISLANDS', 'LARGE_COUNTIES', 'MUNICIPALITIES', 'PROVINCES', 'REGIONS', 'SECTIONS']
+        # Get granularities from URL (url_to_check)
+        geographical_granularities = cache.get_cache_files_from_url(self, url_to_check, remove_extension = True)
+        # Convert to list
+        geographical_granularities = list(geographical_granularities)
         
     else:
         content = istacpy.get_indicators_code(indicator)
@@ -33,15 +37,13 @@ def convert_to_date(variableelement):
 # Only for DISTRICTS and SECTIONS
 def get_cb_date_by_variableelement(self, granularity):
     
-    date_visited = []
     variableelement_visited = []
-    element_list = cache.get_cb_dates_from_file_path(self, granularity)
-    
-    for element in element_list:
+    # Get elements from URL
+    element_list = cache.get_cb_dates_from_url(self, granularity)
+    for date in element_list:
+        element = granularity + "_" + date + ".geojson" 
         date_dict = convert_to_date(element)
-        if date_dict['date'] not in date_visited:
-            variableelement_visited.append(date_dict)
-            date_visited.append(date_dict['date'])
+        variableelement_visited.append(date_dict)
     
     return variableelement_visited
 

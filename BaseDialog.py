@@ -453,21 +453,35 @@ class BaseDialog(QDialog, Ui_BaseDialog):
     
     # Button get data
     def getBtnAction(self, clicked):
-        # Enable progress bar
-        self.enableProgress(enable=True)
-        self.setProgress(1)
+        
+        # If code is 0, windows has been closed by user
+        code = 1
         
         # POLYGONS
         if self.buttonText == "Obtener cartografía":
+            
             for geographical_granularity in self.geographic_list:
-                self.labelLoading.setText("Cargando cartografía " + geographical_granularity + " ...")
-                self.labelLoading.repaint()
-                self.setProgress(1) 
-                self.drawPolygons(geographical_granularity)
-                self.setProgress(100)
+                
+                if geographical_granularity == "DISTRICTS":
+                    code = cache.download_carto(self, geographical_granularity, self.selected_district)
+                elif geographical_granularity == "SECTIONS":
+                    code = cache.download_carto(self, geographical_granularity, self.selected_section)
+                else:
+                    code = cache.download_carto(self, geographical_granularity)
+                    
+                if code is not 0:
+                    # Enable progress bar
+                    self.enableProgress(enable=True)
+                    self.labelLoading.setText("Cargando cartografía " + geographical_granularity + " ...")
+                    self.labelLoading.repaint()
+                    self.setProgress(1) 
+                    self.drawPolygons(geographical_granularity)
+                    self.setProgress(100)
             
         # DATA
         elif self.buttonText == "Obtener datos":
+            # Enable progress bar
+            self.enableProgress(enable=True)
             self.labelLoading.setText("Cargando datos del indicador " + self.indicator + " ...")
             self.labelLoading.repaint()
             self.setProgress(1)
@@ -476,6 +490,8 @@ class BaseDialog(QDialog, Ui_BaseDialog):
     
         # DATA AND POLYGONS
         else:
+            # Enable progress bar
+            self.enableProgress(enable=True)
             if len(self.geographic_list) == 0:
                 self.iface.messageBar().pushMessage("Ooops!", "You have to select at least one geographical granularity", level=Qgis.Critical, duration=5)
                 self.error_flag = True
@@ -490,13 +506,24 @@ class BaseDialog(QDialog, Ui_BaseDialog):
                 self.setProgress(100)
                 # Polygons 
                 for geographical_granularity in self.geographic_list:
-                    self.labelLoading.setText("Cargando cartografía " + geographical_granularity + " ...")
-                    self.labelLoading.repaint()
-                    self.setProgress(1) 
-                    self.drawPolygons(geographical_granularity)
-                    self.setProgress(100)
+                
+                    if geographical_granularity == "DISTRICTS":
+                        code = cache.download_carto(self, geographical_granularity, self.selected_district)
+                    elif geographical_granularity == "SECTIONS":
+                        code = cache.download_carto(self, geographical_granularity, self.selected_section)
+                    else:
+                        code = cache.download_carto(self, geographical_granularity)
+                        
+                    if code is not 0:
+                        # Enable progress bar
+                        self.enableProgress(enable=True)
+                        self.labelLoading.setText("Cargando cartografía " + geographical_granularity + " ...")
+                        self.labelLoading.repaint()
+                        self.setProgress(1) 
+                        self.drawPolygons(geographical_granularity)
+                        self.setProgress(100)
         
-        if not self.error_flag:
+        if not self.error_flag and code is 1:
             self.close()
     
     def enableProgress(self, enable=True):

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui.resources\ui_DownloadDialog.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,15 +11,15 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_DialogDownload(object):
     def setupUi(self, DialogDownload):
         DialogDownload.setObjectName("DialogDownload")
-        DialogDownload.resize(405, 236)
+        DialogDownload.resize(405, 207)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/imgBase/images/istac_c.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         DialogDownload.setWindowIcon(icon)
         self.labelDownloading = QtWidgets.QLabel(DialogDownload)
-        self.labelDownloading.setGeometry(QtCore.QRect(20, 130, 321, 16))
+        self.labelDownloading.setGeometry(QtCore.QRect(20, 110, 321, 16))
         self.labelDownloading.setObjectName("labelDownloading")
         self.pbDownload = QtWidgets.QProgressBar(DialogDownload)
-        self.pbDownload.setGeometry(QtCore.QRect(20, 150, 361, 23))
+        self.pbDownload.setGeometry(QtCore.QRect(20, 130, 361, 23))
         self.pbDownload.setInputMethodHints(QtCore.Qt.ImhNone)
         self.pbDownload.setProperty("value", 0)
         self.pbDownload.setTextVisible(True)
@@ -44,7 +44,7 @@ class Ui_DialogDownload(object):
         self.labelDescription.setWordWrap(True)
         self.labelDescription.setObjectName("labelDescription")
         self.button = QtWidgets.QPushButton(DialogDownload)
-        self.button.setGeometry(QtCore.QRect(20, 200, 361, 23))
+        self.button.setGeometry(QtCore.QRect(20, 170, 361, 23))
         self.button.setObjectName("button")
 
         self.retranslateUi(DialogDownload)
@@ -54,9 +54,9 @@ class Ui_DialogDownload(object):
     def retranslateUi(self, DialogDownload):
         _translate = QtCore.QCoreApplication.translate
         DialogDownload.setWindowTitle(_translate("DialogDownload", "Comprobar actualizaciones"))
-        self.labelDownloading.setText(_translate("DialogDownload", "Actualizando cartografías ..."))
+        self.labelDownloading.setText(_translate("DialogDownload", "Descargando cartografías ..."))
         self.labelTitle.setText(_translate("DialogDownload", "Existen nuevas cartografías disponibles que deben de ser actualizadas antes de ejecutar el plugin"))
-        self.labelDescription.setText(_translate("DialogDownload", "Este proceso sólo se ejecuta la primera vez que inicias el plugin o cuando se actualizan datos cartográficos en la API"))
-        self.button.setText(_translate("DialogDownload", "Actualizar"))
+        self.labelDescription.setText(_translate("DialogDownload", "Este proceso sólo se ejecuta la primera vez que utilizas una cartografía"))
+        self.button.setText(_translate("DialogDownload", "Descargar"))
 
 from istacqgis.gui.generated import resources_rc

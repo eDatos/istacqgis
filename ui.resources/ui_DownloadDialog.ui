@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>405</width>
-    <height>236</height>
+    <height>207</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,20 +21,20 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>130</y>
+     <y>110</y>
      <width>321</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Actualizando cartografías ...</string>
+    <string>Descargando cartografías ...</string>
    </property>
   </widget>
   <widget class="QProgressBar" name="pbDownload">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>150</y>
+     <y>130</y>
      <width>361</width>
      <height>23</height>
     </rect>
@@ -95,7 +95,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Este proceso sólo se ejecuta la primera vez que inicias el plugin o cuando se actualizan datos cartográficos en la API</string>
+    <string>Este proceso sólo se ejecuta la primera vez que utilizas una cartografía</string>
    </property>
    <property name="wordWrap">
     <bool>true</bool>
@@ -105,13 +105,13 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>200</y>
+     <y>170</y>
      <width>361</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Actualizar</string>
+    <string>Descargar</string>
    </property>
   </widget>
  </widget>

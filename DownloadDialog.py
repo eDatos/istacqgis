@@ -38,8 +38,9 @@ except:
  
 class DownloadDialog(QDialog, Ui_DialogDownload):
     
-    def __init__(self, iface):
+    def __init__(self, iface, geographical):
         QDialog.__init__(self)
+        self.geographical = geographical
         self.setupUi(self)
         self.iface = iface
         self.plugin_dir = os.path.dirname(os.path.abspath(__file__))
@@ -47,31 +48,30 @@ class DownloadDialog(QDialog, Ui_DialogDownload):
         self.url_to_check = "http://www.gobiernodecanarias.org/istac/QGIS/"
         self.url_to_download = "http://www.gobiernodecanarias.org/istac/descargas/QGIS/data/"
         self.buttonText = ''
-        self.change_label_text("Presione el botón actualizar ...")
+        self.change_label_text("Presione el botón descargar ...")
         # INITIAL ACTIONS
-        self.change_btn_text("Actualizar")
+        self.change_btn_text("Descargar")
+        self.labelTitle.setText("Es necesario descargar la cartografía " + self.geographical)
+        self.labelTitle.repaint()
         
     def download(self):
         
         # Compare files in URL and /data folder
         files_in_url = cache.get_cache_files_from_url(self, self.url_to_check)
         files_in_cache = cache.get_all_files_in_directory(self)
-        cont = len(files_in_url) - len(files_in_cache)
-        i = int(100/cont)
+        file = self.geographical
         
         self.setProgress(1)
-        for file in files_in_url:
-            if file not in files_in_cache:
-                cache.download_file_from_url(self, self.url_to_download, file)
-                self.setProgress(i)
-                i += int(100/cont)
+        if file not in files_in_cache:
+            cache.download_file_from_url(self, self.url_to_download, file)
+            self.setProgress(50)
         self.setProgress(100)
         
     def setProgress(self, progress):
         self.pbDownload.setValue(progress)
     
     def btn_continue(self, clicked):
-        if self.buttonText == "Actualizar":
+        if self.buttonText == "Descargar":
             self.change_label_text("Actualizando cartografías ...")
             self.download()
             self.change_label_text("Actualización finalizada.")

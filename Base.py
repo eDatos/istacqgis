@@ -26,9 +26,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QAction
 
-from istacqgis.controllers import cache
 from istacqgis.BaseDialog import BaseDialog
-from istacqgis.DownloadDialog import DownloadDialog
 import istacqgis.gui.generated.resources_rc
 
 try:
@@ -60,33 +58,10 @@ class Base:
 
     def run(self):
         
-        # Dialogs
-        self.dlg_download = DownloadDialog(self.iface)
+        # Dialog
         self.dlg_base = BaseDialog(self.iface)
         
-        # Check cache in /data folder
-        updates_available = cache.cache_is_empty(self)
-        
-        # Compare files in URL and /data folder
-        files_in_url = cache.get_cache_files_from_url(self, self.url_to_check)
-        files_in_cache = cache.get_all_files_in_directory(self)
-        need_to_update = False # flag
-        
-        for file in files_in_url:
-            if file not in files_in_cache:
-                need_to_update = True
-        
-        if updates_available or need_to_update:
-            # Updates
-            self.dlg_download.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
-            code = self.dlg_download.exec_()
-            # If code is 0, dlg_download window has been closed by the user
-            # If code is 1, dlg_download window has been closed pressing Continue button
-            # Base Dialog
-            self.dlg_base.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
-            self.dlg_base.exec_()
-        else:
-            # Base Dialog
-            self.dlg_base.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
-            code = self.dlg_base.exec_()
+        # Base Dialog
+        self.dlg_base.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
+        code = self.dlg_base.exec_()
         

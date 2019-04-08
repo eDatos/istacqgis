@@ -1,4 +1,12 @@
+import os.path
+from qgis.core import *
+
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import QAction
+
 from istacqgis.controllers import resources
+from istacqgis.DownloadDialog import DownloadDialog
 import re # regular expressions
 import urllib.request
 import os # os path
@@ -27,6 +35,24 @@ def get_cb_dates_from_file_path(self, option):
                 list.append(file)
     
     return list
+
+def get_cb_dates_from_url(self, granularity):
+    
+    url_to_check = "http://www.gobiernodecanarias.org/istac/QGIS/"
+    links_result = []
+    links = get_cache_files_from_url(self, url_to_check, remove_extension=False)
+    
+    for link in links:
+        if (granularity == "DISTRICTS" and bool(re.match(r"^DISTRICTS_", link))) or (granularity == "SECTIONS" and bool(re.match(r"^SECTIONS", link))):
+            # Select string yyyymmdd.geojson
+            link_splited = link.split("_")[1]
+            # Remove .geojson extension
+            link_ext = link_splited.replace(".geojson", "")
+            # Append
+            links_result.append(link_ext)
+            
+    return links_result
+            
 
 def get_file_size(self, filename, extension):
     path = self.plugin_dir + "/data/" + filename + "." + extension
@@ -73,9 +99,27 @@ def cache_is_empty(self):
         return True
     else:
         return False
-
+   
+def download_carto(self, geographical, date = None):
+    
+    local_geographical = get_all_files_in_directory(self)
+    file = ""
+    if date is not None:
+        file = geographical + "_" + date + ".geojson"
+        geographical = geographical + "_" + date
+    else:
+        file = geographical + ".geojson"
+    
+    if file not in local_geographical:
+        self.dlg_download = DownloadDialog(self.iface, geographical)
+        self.dlg_download.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
+        code = self.dlg_download.exec_()
+        return code
+    else:
+        return 1
+    
 # Get all files names from an URL 
-def get_cache_files_from_url(self, url):
+def get_cache_files_from_url(self, url, remove_extension = False):
     
     links = []
 
@@ -95,16 +139,29 @@ def get_cache_files_from_url(self, url):
            raise
         print("Please, contact us at consultas.istac@gobiernodecanarias.org")
     
+    if remove_extension:
+        links_tmp = []
+        for link in links:
+            if bool(re.match(r"^DISTRICTS_", link)) or bool(re.match(r"^SECTIONS_", link)):
+                link = link.split("_")[0]
+                links_tmp.append(link)
+            else:
+                links_tmp.append(link.replace(".geojson", ""))
+        links = links_tmp
+    
     return set(links)
 
 def download_file_from_url(self, url, file):
     
     # Get path
-    file_path = self.plugin_dir + "/data/" + file
+    file_path = self.plugin_dir + "/data/" + file + ".geojson"
+    
+    # Build URL
+    url = url + file + ".geojson" 
     
     # Download file
     try:
-        urllib.request.urlretrieve(url+file, filename=file_path, reporthook=None, data=None)
+        urllib.request.urlretrieve(url, filename=file_path, reporthook=None, data=None)
     except urllib.error.HTTPError:
         print("Warning: Not file " + file + " found at " + url)
         print("Please, contact us at consultas.istac@gobiernodecanarias.org")

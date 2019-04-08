@@ -4,7 +4,7 @@ qgisMinimumVersion=3.00
 qgisMaximumVersion=3.99
 description=Official plugin of Instituto Canario de Estadística (ISTAC)
 about=This plugin allows access to indicators and cartographies published in the API of Instituto Canario de Estadística (ISTAC)
-version=0.2
+version=0.3
 author=Instituto Canario de Estadística (ISTAC)
 email=consultas.istac@gobiernodecanarias.org
 icon=images/istac_c.png
@@ -14,3 +14,20 @@ homepage=https://www.gobiernodecanarias.org/istac/api/
 repository=https://github.com/eDatos/istacqgis
 tracker=https://github.com/eDatos/istacqgis/issues
 category=Web
+changelog=
+    ** General **
+    0.3:
+    	- Añadir changelog
+		- Descargar cartografías bajo demanda
+		- Leer el listado de cartografías desde la URL del ISTAC
+		- Compatible con GNU/Linux
+	0.2:
+		- Error al cargar la cartografía LARGE_COUNTIES
+		- Soporte para configuración de proxy de QGIS
+		- No aparece el plugin en el administrador de complementos al buscar "istacqgis"
+		- Checkbox "Añadir las unidades por medidas" se queda activo en opciones que no debe
+		- Error en la codificación de capas de datos
+		- Actualizar caché de polígonos de distritos y secciones
+		- Deshabilitar el botón "Obtener datos y cartografías" cuando no se ha seleccionado una cartografía
+	0.1:
+		- Versión inicial
