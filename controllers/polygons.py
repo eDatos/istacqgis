@@ -56,7 +56,10 @@ def get_geojson_data(self, geographical_granularity):
 
     variable_element_list = []
     for feature in data['features']:
-        variable_element_list.append(feature["properties"]["variable_element"])
+        try:
+            variable_element_list.append(feature["properties"]["variable_element"])
+        except KeyError:
+            variable_element_list.append(None)
         
     return variable_element_list
     

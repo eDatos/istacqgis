@@ -31,23 +31,33 @@ def errorCatcher( msg, tag, level ):
     print("Error: " + msg) 
 
 
-def get_content(url):
+def get_content(url, is_json = True):
+    
     content_requests = ""
-    headers = {'Content-Type': 'application/json;charset=UTF-8', 'Access-Control-Allow-Origin': '*'}
+    
     # Get content
     networkAccessManager = QNetworkAccessManager()
     req = QNetworkRequest(QUrl(url))
-    req.setHeader(QNetworkRequest.ContentTypeHeader, headers)
+    
+    # Set JSON headers
+    if is_json:
+        headers = {'Content-Type': 'application/json;charset=UTF-8', 'Access-Control-Allow-Origin': '*'}
+        req.setHeader(QNetworkRequest.ContentTypeHeader, headers)
+        
     reply = networkAccessManager.get(req)
     event = QEventLoop()
     reply.finished.connect(event.quit)
     event.exec()
+    
     # Capture errors
     er = reply.error()
     if er == QNetworkReply.NoError:
         bytes_string = reply.readAll()
-        content_requests = json.loads(str(bytes_string, 'utf-8'))
-        
+        if is_json:
+            content_requests = json.loads(str(bytes_string, 'utf-8'))
+        else:
+            content_requests = bytes_string.data().decode('utf8')
+
     return content_requests
 
 # Calculated date

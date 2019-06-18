@@ -32,6 +32,7 @@ from istacqgis.controllers import data
 from istacqgis.controllers import polygons
 from istacqgis.controllers import cache
 from istacqgis.controllers import resources
+from istacqgis.controllers import connections
 
 from operator import itemgetter # to sort a dictionary
 import os.path
@@ -55,6 +56,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         self.subject = ""
         self.indicator = ""
         self.buttonText = "Obtener datos"
+        self.prevButtonText = ""
         self.geographic_list = []
         self.selected_section = ""
         self.selected_district = ""
@@ -65,6 +67,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         self.geographical_and_temporal_labels = False
         self.measures_units = False
         self.langs = False
+        self.base_map = False
         self.initialCbCheckin()
         # INITIAL ACTIONS
         self.setCbSubjects()
@@ -258,6 +261,50 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         QgsProject.instance().addMapLayer(dataLayer)
         
         self.setProgress(100)
+        
+    def drawBaseMap(self):
+        
+        # Define variables
+        crs = 'EPSG:3857'
+        dpiMode = '7'
+        format = 'image/png'
+        layers = 'cjucn2je5190f1ft71y0c829a'
+        styles = 'default'
+        tileMatrixSet = 'GoogleMapsCompatible'
+        url = 'https://api.mapbox.com/styles/v1/istac/cjucn2je5190f1ft71y0c829a/wmts'
+        token = 'pk.eyJ1IjoiaXN0YWMiLCJhIjoiY2p1Y21zenNiMG53MDQ0cGk1OGtzczl1MCJ9.Yp_T9Jf8_bHI2j0FsGXiKw'
+        
+        # Build layer
+        layer = (
+            'crs=' + crs + 
+            '&dpiMode=' + dpiMode +
+            '&format=' + format +
+            '&layers=' + layers +
+            '&styles=' + styles +
+            '&tileMatrixSet=' + tileMatrixSet +
+            '&url=' + url +
+            '?access_token=' + token)
+        
+        self.setProgress(10)
+        time.sleep(0.1)
+        self.setProgress(20)
+        
+        # WMS Layer
+        rlayer = QgsRasterLayer(layer, 'Base Map (ISTAC)', 'wms')
+        self.setProgress(30)
+    
+        # Check if layer is valid
+        if rlayer.isValid():
+            QgsProject.instance().addMapLayer(rlayer)
+        else:
+            print('invalid layer')
+        
+        self.setProgress(50)
+        time.sleep(0.1)
+        self.setProgress(75)
+        self.setProgress(80)
+        self.setProgress(90)
+        time.sleep(0.1)
     
     def enable_options(self, enable=True, geographical=True):
         if enable:
@@ -272,6 +319,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
                 self.checkBoxLangs.setEnabled(True)
             else:
                 self.checkBoxLangs.setEnabled(False)
+            self.checkBoxBaseMap.setEnabled(False)
         else:
             self.cbSubjects.setEnabled(False)
             self.cbIndicators.setEnabled(False)
@@ -281,15 +329,31 @@ class BaseDialog(QDialog, Ui_BaseDialog):
             self.checkBoxLabels.setEnabled(False)
             self.checkBoxMeasuresUnit.setEnabled(False)
             self.checkBoxLangs.setEnabled(False)
+            self.checkBoxBaseMap.setEnabled(True)
                 
         if geographical:
             self.listGeographical.setEnabled(True)
             self.cbDistricts.setEnabled(True)
             self.cbSections.setEnabled(True)
+            self.checkBoxBaseMap.setEnabled(True)
         else:
             self.listGeographical.setEnabled(False)
             self.cbDistricts.setEnabled(False)
             self.cbSections.setEnabled(False)
+            self.checkBoxBaseMap.setEnabled(False)
+            
+    def hide_all(self, all=True):
+        if all:
+            self.rbData.setEnabled(False)
+            self.rbDataCarto.setEnabled(False)
+            self.rbCarto.setEnabled(False)
+            self.enable_options(False, False)
+        else:
+            self.rbData.setEnabled(True)
+            self.rbDataCarto.setEnabled(True)
+            self.rbCarto.setEnabled(True)
+            self.enable_options(True, True)
+            #self.initialCbCheckin()
         
     def getRadioOptions(self, clicked):
         
@@ -302,7 +366,10 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # Indicadores y su cartografía asociada
         if self.rbDataCarto.isChecked():
-            self.btnGetDataPolygons.setEnabled(False)
+            if self.base_map:
+                self.btnGetDataPolygons.setEnabled(True)
+            else:
+                self.btnGetDataPolygons.setEnabled(False)
             self.change_btn_text("Obtener datos y cartografía")
             self.enable_options(True, geographical=True)
             self.setlistGeographical(indicator=self.indicator)
@@ -310,7 +377,10 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # Cartografía disponible por capas
         if self.rbCarto.isChecked():
-            self.btnGetDataPolygons.setEnabled(False)
+            if self.base_map:
+                self.btnGetDataPolygons.setEnabled(True)
+            else:
+                self.btnGetDataPolygons.setEnabled(False)
             self.change_btn_text("Obtener cartografía")
             self.enable_options(False, geographical=True)
             self.setlistGeographical(indicator=None)
@@ -326,7 +396,10 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # Enable or disable button
         if len(self.geographic_list) == 0 and self.buttonText == "Obtener datos y cartografía":
-            self.btnGetDataPolygons.setEnabled(False)
+            if self.base_map:
+                self.btnGetDataPolygons.setEnabled(True)
+            else:
+                self.btnGetDataPolygons.setEnabled(False)
         elif len(self.geographic_list) == 0 and self.buttonText == "Obtener cartografía":
             self.btnGetDataPolygons.setEnabled(False)
         else:
@@ -444,7 +517,19 @@ class BaseDialog(QDialog, Ui_BaseDialog):
             self.langs = True
         else:
             self.langs = False
-
+    
+    # Base Map (ISTAC)
+    def setCbBaseMap(self, clicked):
+        if self.checkBoxBaseMap.isChecked():
+            self.base_map = True
+            self.btnGetDataPolygons.setEnabled(True)
+        else:
+            self.base_map = False
+            if len(self.geographic_list) == 0:
+                self.btnGetDataPolygons.setEnabled(False)
+            else:
+                self.btnGetDataPolygons.setEnabled(True)
+        
     # BUTTONS
     # Change button (btnGetDataPolygons) text
     def change_btn_text(self, text):
@@ -459,6 +544,16 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # POLYGONS
         if self.buttonText == "Obtener cartografía":
+            
+            # Base map (ISTAC)
+            if self.base_map:
+                # Enable progress bar
+                self.enableProgress(enable=True)
+                self.labelLoading.setText("Cargando mapa base del ISTAC ...")
+                self.setProgress(1)
+                connections.connect_wms(self)
+                self.drawBaseMap()
+                self.setProgress(100)
             
             for geographical_granularity in self.geographic_list:
                 
@@ -489,7 +584,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
             self.setProgress(100)
     
         # DATA AND POLYGONS
-        else:
+        elif self.buttonText == "Obtener datos y cartografía":
             # Enable progress bar
             self.enableProgress(enable=True)
             if len(self.geographic_list) == 0:
@@ -498,12 +593,23 @@ class BaseDialog(QDialog, Ui_BaseDialog):
                 self.setProgress(0)
                 self.enableProgress(enable=False)
             else:
+                # Base map (ISTAC)
+                if self.base_map:
+                    # Enable progress bar
+                    self.enableProgress(enable=True)
+                    self.labelLoading.setText("Cargando mapa base del ISTAC ...")
+                    self.setProgress(1)
+                    connections.connect_wms(self)
+                    self.drawBaseMap()
+                    self.setProgress(100)
+                    
                 # Data
                 self.labelLoading.setText("Cargando datos del indicador " + self.indicator + " ...")
                 self.labelLoading.repaint()
                 self.setProgress(1)
                 self.drawDataLayer()
                 self.setProgress(100)
+                
                 # Polygons 
                 for geographical_granularity in self.geographic_list:
                 
@@ -522,7 +628,8 @@ class BaseDialog(QDialog, Ui_BaseDialog):
                         self.setProgress(1) 
                         self.drawPolygons(geographical_granularity)
                         self.setProgress(100)
-        
+
+            
         if not self.error_flag and code is 1:
             self.close()
     
@@ -647,6 +754,7 @@ class BaseDialog(QDialog, Ui_BaseDialog):
         
         # LINKS
         file_size = cache.get_file_size(self, file_path, file_extension)
+        flag_link_error = False
         
         if is_indicator is False:
             
@@ -658,13 +766,19 @@ class BaseDialog(QDialog, Ui_BaseDialog):
                 l.name = element
                 l.type = 'WWW:LINK'
                 l.description = None
-                l.url = 'https://www3.gobiernodecanarias.org/istac/api/structural-resources/v1.0/variables/VR_TERRITORIO/variableelements/' + element + '/geoinfo'
+                try:
+                    l.url = 'https://www3.gobiernodecanarias.org/istac/api/structural-resources/v1.0/variables/VR_TERRITORIO/variableelements/' + element + '/geoinfo'
+                except TypeError:
+                    flag_link_error = True
+                    l.url = None
                 l.format = 'OGR/GeoJSON'
                 l.mimeType = 'application/json'
                 l.size = str(int(file_size/len(link_carto_var_elements)))
                 link_list.append(l)
-                
-            m.setLinks(link_list)
+                    
+            # If no errors, set links
+            if not flag_link_error:
+                m.setLinks(link_list)
             
         else:
     

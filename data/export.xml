@@ -1,0 +1,4 @@
+<!DOCTYPE connections>
+<qgsWMSConnections version="1.0">
+    <wms ignoreAxisOrientation="false" ignoreGetMapURI="false" smoothPixmapTransform="false" invertAxisOrientation="false" ignoreGetFeatureInfoURI="false" username="" url="https://api.mapbox.com/styles/v1/istac/cjucn2je5190f1ft71y0c829a/wmts?access_token=pk.eyJ1IjoiaXN0YWMiLCJhIjoiY2p1Y21zenNiMG53MDQ0cGk1OGtzczl1MCJ9.Yp_T9Jf8_bHI2j0FsGXiKw" password="" referer="" dpiMode="7" name="Base Map (ISTAC)"/>
+</qgsWMSConnections>

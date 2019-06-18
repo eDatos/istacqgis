@@ -4,7 +4,7 @@ qgisMinimumVersion=3.00
 qgisMaximumVersion=3.99
 description=Official plugin of Instituto Canario de Estadística (ISTAC)
 about=This plugin allows access to indicators and cartographies published in the API of Instituto Canario de Estadística (ISTAC)
-version=0.3
+version=0.4
 author=Instituto Canario de Estadística (ISTAC)
 email=consultas.istac@gobiernodecanarias.org
 icon=images/istac_c.png
@@ -16,6 +16,12 @@ tracker=https://github.com/eDatos/istacqgis/issues
 category=Web
 changelog=
     ** General **
+	0.4:
+    	- Añadir mapa base del ISTAC (TOC)
+		- Añadir mapa base del ISTAC (Conexion WMS/WMTS)
+		- Añadir nuevos mapas ligeros
+		- Soporte para configuración de proxy de QGIS para la lectura de nuevos mapas ligeros
+		- Error al cargar nuevos mapas ligeros sin metadatos en la API del ISTAC
     0.3:
     	- Añadir changelog
 		- Descargar cartografías bajo demanda

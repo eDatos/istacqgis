@@ -4,6 +4,8 @@ from qgis.core import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import QAction
+from PyQt5.QtCore import QUrl, QEventLoop
+from PyQt5.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkReply
 
 from istacqgis.controllers import resources
 from istacqgis.DownloadDialog import DownloadDialog
@@ -12,6 +14,7 @@ import urllib.request
 import os # os path
 import glob
 import csv
+import time
 
 def get_all_files_in_directory(self, extension="*.geojson"):
     
@@ -120,17 +123,17 @@ def download_carto(self, geographical, date = None):
     
 # Get all files names from an URL 
 def get_cache_files_from_url(self, url, remove_extension = False):
-    
+
     links = []
 
     try:
+
         # Connect to a URL
-        website = urllib.request.urlopen(url)
-        # Read html code
-        html = website.read().decode('utf-8')
+        html = resources.get_content(url, is_json = False)
+
         # Use re.findall to get all the links
         links = re.findall(r'[\w\.-]+geojson+', html)
-        
+
     except urllib.error.HTTPError as err:
 
         if err.code == 404:
@@ -138,7 +141,7 @@ def get_cache_files_from_url(self, url, remove_extension = False):
         else:
            raise
         print("Please, contact us at consultas.istac@gobiernodecanarias.org")
-    
+
     if remove_extension:
         links_tmp = []
         for link in links:

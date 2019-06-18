@@ -147,6 +147,9 @@ class Ui_BaseDialog(object):
         self.listGeographical.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.listGeographical.setObjectName("listGeographical")
         self.verticalLayout.addWidget(self.listGeographical)
+        self.checkBoxBaseMap = QtWidgets.QCheckBox(BaseDialog)
+        self.checkBoxBaseMap.setObjectName("checkBoxBaseMap")
+        self.verticalLayout.addWidget(self.checkBoxBaseMap)
         self.labelDistricts = QtWidgets.QLabel(BaseDialog)
         self.labelDistricts.setObjectName("labelDistricts")
         self.verticalLayout.addWidget(self.labelDistricts)
@@ -214,6 +217,7 @@ class Ui_BaseDialog(object):
         self.cbDistricts.currentIndexChanged['QString'].connect(BaseDialog.getCbDistricts)
         self.cbSections.currentIndexChanged['QString'].connect(BaseDialog.getCbSections)
         self.rbData.clicked['bool'].connect(BaseDialog.getRadioOptions)
+        self.checkBoxBaseMap.clicked['bool'].connect(BaseDialog.setCbBaseMap)
         QtCore.QMetaObject.connectSlotsByName(BaseDialog)
 
     def retranslateUi(self, BaseDialog):
@@ -235,6 +239,7 @@ class Ui_BaseDialog(object):
         self.checkBoxMeasuresUnit.setText(_translate("BaseDialog", "Añadir las unidades de medida"))
         self.checkBoxLangs.setText(_translate("BaseDialog", "Añadir todos los idiomas"))
         self.labelCartoTitle.setText(_translate("BaseDialog", "Selecciona las capas cartográficas ligeras"))
+        self.checkBoxBaseMap.setText(_translate("BaseDialog", "Añadir mapa base del ISTAC"))
         self.labelDistricts.setText(_translate("BaseDialog", "Distritos"))
         self.labelSections.setText(_translate("BaseDialog", "Secciones"))
         self.labelLoading.setText(_translate("BaseDialog", "Cargando datos ..."))

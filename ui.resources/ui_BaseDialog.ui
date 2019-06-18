@@ -324,6 +324,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="checkBoxBaseMap">
+     <property name="text">
+      <string>Añadir mapa base del ISTAC</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="labelDistricts">
      <property name="text">
       <string>Distritos</string>
@@ -441,8 +448,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>213</x>
-     <y>687</y>
+     <x>193</x>
+     <y>710</y>
     </hint>
     <hint type="destinationlabel">
      <x>177</x>
@@ -649,8 +656,8 @@
    <slot>getCbDistricts(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>94</x>
-     <y>559</y>
+     <x>103</x>
+     <y>582</y>
     </hint>
     <hint type="destinationlabel">
      <x>100</x>
@@ -665,8 +672,8 @@
    <slot>getCbSections(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>336</x>
-     <y>604</y>
+     <x>345</x>
+     <y>627</y>
     </hint>
     <hint type="destinationlabel">
      <x>335</x>
@@ -690,6 +697,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>checkBoxBaseMap</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>BaseDialog</receiver>
+   <slot>setCbBaseMap(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>123</x>
+     <y>528</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>159</x>
+     <y>587</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>getCbIndicators(QString)</slot>
@@ -707,5 +730,6 @@
   <slot>getCbSubjects(QString)</slot>
   <slot>getCbDistricts(QString)</slot>
   <slot>getCbSections(QString)</slot>
+  <slot>setCbBaseMap(bool)</slot>
  </slots>
 </ui>
