@@ -5,7 +5,7 @@ from PyQt5.QtNetwork import QNetworkAccessManager, QNetworkRequest, QNetworkRepl
 
 # Build API URL
 def get_url(api, path, resource=None):
-    url_root = "https://www3.gobiernodecanarias.org/istac/api/" + api + "/v1.0/"
+    url_root = "https://datos.canarias.es/api/estadisticas/" + api + "/v1.0/"
     if resource is None:
         url = url_root + path
     else:
